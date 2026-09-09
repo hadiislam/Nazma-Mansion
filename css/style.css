@@ -1,0 +1,668 @@
+/* =========================================================
+   NAZMA MANSION — ডিজাইন সিস্টেম
+   টোকেন: রঙ, টাইপোগ্রাফি, লেআউট, কম্পোনেন্ট
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Hind+Siliguri:wght@400;500;600;700&display=swap');
+
+:root{
+  /* --- আলো থিম (ডিফল্ট) --- */
+  --bg:#FFFFFF;
+  --surface:#FFFFFF;
+  --surface-alt:#F4F4F6;
+  --primary:#1B4332;
+  --primary-dark:#12301F;
+  --primary-light:#2D6A4F;
+  --gold:#B08B3B;
+  --teal:#3D6B77;
+  --text:#232323;
+  --text-muted:#79766D;
+  --border:#EAE8E3;
+  --danger:#B3261E;
+  --success:#2D6A4F;
+  --shadow: 0 8px 24px rgba(27,67,50,0.09);
+  --shadow-soft: 0 2px 10px rgba(27,67,50,0.07);
+  --radius-s:10px;
+  --radius-m:16px;
+  --font-display:'Tiro Bangla','Noto Serif Bengali',serif;
+  --font-body:'Hind Siliguri','Noto Sans Bengali',sans-serif;
+  --header-h:60px;
+  --ticker-h:38px;
+  --app-width:430px;
+  color-scheme: light;
+}
+
+[data-theme="dark"]{
+  --bg:#101613;
+  --surface:#1A211D;
+  --surface-alt:#212B25;
+  --primary:#6FBF97;
+  --primary-dark:#4E9A73;
+  --primary-light:#8FD3AC;
+  --gold:#D9B368;
+  --teal:#6FA9B4;
+  --text:#ECE8DC;
+  --text-muted:#A7A296;
+  --border:#2C3830;
+  --danger:#E5847C;
+  --success:#8FD3AC;
+  --shadow: 0 10px 28px rgba(0,0,0,0.45);
+  --shadow-soft: 0 2px 12px rgba(0,0,0,0.35);
+  color-scheme: dark;
+}
+
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.65;
+  transition:background .25s ease, color .25s ease;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{
+  font-family:var(--font-display);
+  color:var(--primary-dark);
+  margin:0 0 .5em;
+  font-weight:400;
+  line-height:1.3;
+}
+[data-theme="dark"] h1,[data-theme="dark"] h2,[data-theme="dark"] h3,[data-theme="dark"] h4{ color:var(--primary-light); }
+p{ margin:0 0 1em; color:var(--text); }
+a{ color:inherit; text-decoration:none; }
+img{ max-width:100%; display:block; }
+ul{ margin:0; padding:0; list-style:none; }
+button, input, select, textarea{ font-family:inherit; font-size:1rem; }
+.container{ width:100%; margin:0 auto; padding:0 16px; }
+.muted{ color:var(--text-muted); }
+main{ min-height:60vh; }
+
+/* =========================================================
+   অ্যাপ-শেল — পুরো সাইট মোবাইল অ্যাপের সমান প্রশস্ততায় বাঁধা
+   ========================================================= */
+.app-shell{
+  max-width:var(--app-width);
+  margin:0 auto;
+  background:var(--surface);
+  min-height:100vh;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+}
+@media (min-width: 465px){
+  .app-shell{
+    border-left:1px solid var(--border);
+    border-right:1px solid var(--border);
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+}
+
+:focus-visible{ outline:3px solid var(--gold); outline-offset:2px; }
+
+/* =========================================================
+   ঘোষণা টিকার (Ticker)
+   ========================================================= */
+.ticker{
+  height:var(--ticker-h);
+  background:var(--primary-dark);
+  color:#F3EFE3;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+  white-space:nowrap;
+  position:relative;
+}
+.ticker__icon{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:0 14px;
+  background:var(--gold);
+  color:#2A2109;
+  height:100%;
+  font-weight:600;
+  font-size:.85rem;
+  z-index:2;
+}
+.ticker__icon svg{ width:16px; height:16px; flex:0 0 auto; }
+.ticker__track{
+  flex:1 1 auto;
+  overflow:hidden;
+  position:relative;
+  height:100%;
+}
+.ticker__text{
+  position:absolute;
+  white-space:nowrap;
+  top:0; left:0;
+  height:100%;
+  display:flex;
+  align-items:center;
+  padding-left:100%;
+  font-size:.85rem;
+  animation:ticker-scroll 22s linear infinite;
+}
+@keyframes ticker-scroll{
+  0%{ transform:translateX(0); }
+  100%{ transform:translateX(-100%); }
+}
+
+/* =========================================================
+   হেডার
+   ========================================================= */
+.site-header{
+  height:var(--header-h);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 16px;
+  background:rgba(255,255,255,0.72);
+  backdrop-filter:blur(14px) saturate(140%);
+  -webkit-backdrop-filter:blur(14px) saturate(140%);
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+[data-theme="dark"] .site-header{ background:rgba(16,22,19,0.72); }
+.brand{ display:flex; align-items:center; gap:10px; }
+.brand__mark{
+  width:38px; height:38px;
+  border-radius:9px;
+  background:linear-gradient(155deg,var(--primary),var(--primary-dark));
+  display:flex; align-items:center; justify-content:center;
+  flex:0 0 auto;
+  box-shadow:var(--shadow-soft);
+}
+.brand__mark svg{ width:20px; height:20px; }
+.brand__name{ display:flex; flex-direction:column; line-height:1.15; }
+.brand__name strong{ font-family:var(--font-display); font-size:1.05rem; color:var(--primary-dark); }
+[data-theme="dark"] .brand__name strong{ color:var(--primary-light); }
+.brand__name span{ font-size:.68rem; color:var(--text-muted); letter-spacing:.02em; }
+
+.header-actions{ display:flex; align-items:center; gap:6px; }
+.icon-btn{
+  width:40px; height:40px;
+  border-radius:50%;
+  border:1px solid var(--border);
+  background:var(--surface);
+  color:var(--text);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+  transition:background .2s ease, transform .15s ease;
+}
+.icon-btn:hover{ background:var(--surface-alt); }
+.icon-btn:active{ transform:scale(.94); }
+.icon-btn svg{ width:19px; height:19px; }
+
+/* তিন-ডট মেনু বাটন */
+.menu-btn{ font-size:1.4rem; letter-spacing:2px; line-height:1; padding-bottom:6px; }
+
+/* =========================================================
+   স্লাইড-আউট মেনু
+   ========================================================= */
+.menu-overlay{
+  position:fixed; inset:0;
+  background:rgba(16,22,19,.45);
+  opacity:0; pointer-events:none;
+  transition:opacity .25s ease;
+  z-index:80;
+}
+.menu-overlay.is-open{ opacity:1; pointer-events:auto; }
+
+.side-menu{
+  position:fixed; top:0; right:0; bottom:0;
+  width:min(320px, 84vw);
+  background:var(--surface);
+  box-shadow:var(--shadow);
+  transform:translateX(100%);
+  transition:transform .32s cubic-bezier(.4,0,.2,1);
+  z-index:90;
+  display:flex; flex-direction:column;
+  border-left:1px solid var(--border);
+}
+.side-menu.is-open{ transform:translateX(0); }
+.side-menu__top{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:18px 18px 14px;
+  border-bottom:1px solid var(--border);
+}
+.side-menu__top strong{ font-family:var(--font-display); font-size:1.15rem; color:var(--primary-dark); }
+[data-theme="dark"] .side-menu__top strong{ color:var(--primary-light); }
+.side-menu nav{ overflow-y:auto; padding:10px 8px; flex:1; }
+.side-menu a{
+  display:flex; align-items:center; gap:12px;
+  padding:13px 14px;
+  border-radius:var(--radius-s);
+  color:var(--text);
+  font-weight:500;
+  transition:background .2s ease, color .2s ease, padding-right .2s ease;
+}
+.side-menu a svg{ width:19px; height:19px; flex:0 0 auto; color:var(--primary); }
+.side-menu a:hover{ background:var(--surface-alt); padding-right:8px; }
+.side-menu a.is-active{ background:var(--primary); color:#fff; }
+.side-menu a.is-active svg{ color:#fff; }
+.side-menu__foot{
+  padding:14px 18px 20px;
+  border-top:1px solid var(--border);
+  font-size:.78rem;
+  color:var(--text-muted);
+}
+
+/* =========================================================
+   হিরো
+   ========================================================= */
+.hero{
+  padding:38px 0 8px;
+  text-align:center;
+}
+.hero__eyebrow-icon{ width:64px; height:64px; margin:0 auto 14px; color:var(--primary); }
+.hero h1{ font-size:clamp(1.5rem, 4.5vw, 2.1rem); margin-bottom:.3em; }
+.hero p{ max-width:520px; margin:0 auto; color:var(--text-muted); }
+
+/* =========================================================
+   অ্যাপ গ্রিটিং (হোমপেজ)
+   ========================================================= */
+.app-greeting{
+  padding:16px 16px 4px;
+  font-size:.95rem;
+  color:var(--text-muted);
+}
+.app-greeting strong{ color:var(--text); font-weight:700; }
+
+/* =========================================================
+   ফিচার গ্রিড — বিকাশ-স্টাইল আইকন কার্ড (এক্সটেনসিবল)
+   নতুন ফিচার যোগ করতে শুধু js/features.js এ একটা এন্ট্রি
+   আর নিজের HTML পেজ বানালেই এখানে অটোমেটিক যোগ হয়ে যাবে
+   ========================================================= */
+.feature-grid{
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap:18px 6px;
+  padding:14px 12px 30px;
+}
+.feature-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:7px;
+  text-align:center;
+  color:var(--text);
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.feature-item__icon{
+  width:56px; height:56px;
+  border-radius:18px;
+  display:flex; align-items:center; justify-content:center;
+  transition:transform .15s ease;
+}
+.feature-item:active .feature-item__icon{ transform:scale(.92); }
+.feature-item__icon svg{ width:26px; height:26px; }
+.feature-item span{ font-size:.72rem; font-weight:600; line-height:1.25; max-width:74px; }
+
+.feature-item.tile-1 .feature-item__icon{ background:#E7F0EA; color:#1B4332; }
+.feature-item.tile-2 .feature-item__icon{ background:#F5EEDD; color:#9C7A2E; }
+.feature-item.tile-3 .feature-item__icon{ background:#E4EEF0; color:#2F6570; }
+.feature-item.tile-4 .feature-item__icon{ background:#E6EDF6; color:#33578C; }
+.feature-item.tile-5 .feature-item__icon{ background:#FBEAE7; color:#B0503F; }
+.feature-item.tile-6 .feature-item__icon{ background:#EFE7F5; color:#71499C; }
+.feature-item.tile-7 .feature-item__icon{ background:#FCF3D9; color:#A9820A; }
+.feature-item.tile-8 .feature-item__icon{ background:#FBE7EF; color:#A94B77; }
+
+[data-theme="dark"] .feature-item.tile-1 .feature-item__icon{ background:#1B2A22; color:#8FD3AC; }
+[data-theme="dark"] .feature-item.tile-2 .feature-item__icon{ background:#2B2517; color:#D9B368; }
+[data-theme="dark"] .feature-item.tile-3 .feature-item__icon{ background:#182629; color:#7FBAC4; }
+[data-theme="dark"] .feature-item.tile-4 .feature-item__icon{ background:#182230; color:#7FA3D6; }
+[data-theme="dark"] .feature-item.tile-5 .feature-item__icon{ background:#2A1C19; color:#E08D7B; }
+[data-theme="dark"] .feature-item.tile-6 .feature-item__icon{ background:#241A2C; color:#C79CE6; }
+[data-theme="dark"] .feature-item.tile-7 .feature-item__icon{ background:#2A2412; color:#E0C15C; }
+[data-theme="dark"] .feature-item.tile-8 .feature-item__icon{ background:#2A1620; color:#E08FB4; }
+
+/* =========================================================
+   প্রধান দুটি কার্ড (হোমপেজ) — লিগ্যাসি, প্রয়োজনে অন্য পেজে ব্যবহারযোগ্য
+   ========================================================= */
+.option-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:20px;
+  padding:28px 0 48px;
+}
+@media (min-width:760px){
+  .option-grid{ grid-template-columns:1fr 1fr; }
+}
+.option-card{
+  position:relative;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius-m);
+  padding:30px 26px 26px;
+  box-shadow:var(--shadow-soft);
+  overflow:hidden;
+  transition:transform .25s ease, box-shadow .25s ease;
+}
+.option-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow); }
+.option-card::before{
+  content:"";
+  position:absolute; top:0; left:0; right:0; height:5px;
+}
+.option-card--gold::before{ background:var(--gold); }
+.option-card--teal::before{ background:var(--teal); }
+.option-card__icon{
+  width:54px; height:54px;
+  border-radius:14px;
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:18px;
+}
+.option-card--gold .option-card__icon{ background:color-mix(in srgb, var(--gold) 18%, transparent); color:var(--gold); }
+.option-card--teal .option-card__icon{ background:color-mix(in srgb, var(--teal) 18%, transparent); color:var(--teal); }
+.option-card__icon svg{ width:28px; height:28px; }
+.option-card h2{ font-size:1.35rem; margin-bottom:.25em; }
+.option-card p{ color:var(--text-muted); margin-bottom:1.4em; font-size:.95rem; }
+
+/* =========================================================
+   বাটন
+   ========================================================= */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:13px 22px;
+  border-radius:12px;
+  border:none;
+  font-weight:600;
+  font-size:.96rem;
+  cursor:pointer;
+  transition:transform .15s ease, box-shadow .2s ease, background .2s ease;
+  text-align:center;
+}
+.btn:active{ transform:scale(.97); }
+.btn--primary{ background:var(--primary); color:#fff; box-shadow:0 6px 16px color-mix(in srgb, var(--primary) 40%, transparent); }
+.btn--primary:hover{ background:var(--primary-dark); }
+.btn--gold{ background:var(--gold); color:#2A2109; box-shadow:0 6px 16px color-mix(in srgb, var(--gold) 35%, transparent); }
+.btn--gold:hover{ filter:brightness(1.06); }
+.btn--teal{ background:var(--teal); color:#fff; box-shadow:0 6px 16px color-mix(in srgb, var(--teal) 35%, transparent); }
+.btn--teal:hover{ filter:brightness(1.08); }
+.btn--outline{ background:transparent; color:var(--primary); border:1.5px solid var(--primary); }
+[data-theme="dark"] .btn--outline{ color:var(--primary-light); border-color:var(--primary-light); }
+.btn--outline:hover{ background:color-mix(in srgb, var(--primary) 10%, transparent); }
+.btn--block{ width:100%; }
+.btn--sm{ padding:9px 16px; font-size:.85rem; border-radius:9px; }
+.btn[disabled]{ opacity:.5; cursor:not-allowed; }
+
+/* =========================================================
+   পেজ হেডার (ভেতরের পেজগুলোর জন্য)
+   ========================================================= */
+.page-head{ padding:30px 0 6px; text-align:center; }
+.page-head h1{ font-size:clamp(1.4rem,4vw,1.9rem); }
+.breadcrumb{ font-size:.82rem; color:var(--text-muted); margin-bottom:10px; }
+.breadcrumb a:hover{ color:var(--primary); }
+
+/* =========================================================
+   কার্ড / প্যানেল (ভেতরের কনটেন্টের জন্য)
+   ========================================================= */
+.panel{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius-m);
+  padding:24px;
+  box-shadow:var(--shadow-soft);
+  margin-bottom:22px;
+}
+.panel h2{ font-size:1.15rem; }
+.section{ padding:10px 0 44px; }
+.section-narrow{ max-width:680px; margin:0 auto; }
+
+/* =========================================================
+   ফর্ম
+   ========================================================= */
+.field{ margin-bottom:16px; }
+.field label{ display:block; font-weight:600; font-size:.88rem; margin-bottom:6px; color:var(--text); }
+.field input, .field select, .field textarea{
+  width:100%;
+  padding:12px 14px;
+  border-radius:10px;
+  border:1.5px solid var(--border);
+  background:var(--surface);
+  color:var(--text);
+}
+.field input:focus, .field select:focus, .field textarea:focus{ border-color:var(--primary); }
+.field small{ display:block; margin-top:5px; color:var(--text-muted); font-size:.78rem; }
+.field small strong{ color:var(--primary-dark); font-family:var(--font-display); }
+[data-theme="dark"] .field small strong{ color:var(--primary-light); }
+.form-grid{ display:grid; grid-template-columns:1fr; gap:0 16px; }
+@media (min-width:600px){ .form-grid--2{ grid-template-columns:1fr 1fr; } }
+
+/* =========================================================
+   টেবিল (রেজাল্ট, রিপোর্ট)
+   ========================================================= */
+.table-wrap{ overflow-x:auto; border-radius:var(--radius-s); border:1px solid var(--border); }
+table{ width:100%; border-collapse:collapse; min-width:560px; background:var(--surface); }
+thead th{
+  background:var(--primary);
+  color:#fff;
+  text-align:left;
+  padding:12px 14px;
+  font-weight:600;
+  font-size:.85rem;
+  white-space:nowrap;
+}
+tbody td{ padding:11px 14px; border-top:1px solid var(--border); font-size:.9rem; text-align:left; }
+tbody tr:nth-child(even){ background:var(--surface-alt); }
+tfoot td{ padding:12px 14px; font-weight:700; border-top:2px solid var(--primary); background:var(--surface-alt); text-align:left; }
+th.num, td.num{ text-align:right; }
+
+/* =========================================================
+   নোটিশ / তালিকা কার্ড
+   ========================================================= */
+.list-card{
+  display:flex; gap:14px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius-s);
+  padding:16px;
+  margin-bottom:12px;
+  align-items:flex-start;
+}
+a.list-card{ transition:background .2s ease; cursor:pointer; }
+a.list-card:hover{ background:var(--surface-alt); }
+.list-card__badge{
+  flex:0 0 auto;
+  width:44px; height:44px;
+  border-radius:10px;
+  background:color-mix(in srgb, var(--primary) 14%, transparent);
+  color:var(--primary);
+  display:flex; align-items:center; justify-content:center;
+}
+[data-theme="dark"] .list-card__badge{ color:var(--primary-light); }
+.list-card__badge svg{ width:20px; height:20px; }
+.list-card h3{ font-size:1rem; margin-bottom:.2em; }
+.list-card time{ font-size:.76rem; color:var(--text-muted); }
+.tag{
+  display:inline-block;
+  font-size:.7rem;
+  font-weight:700;
+  padding:3px 9px;
+  border-radius:20px;
+  margin-inline-start:8px;
+  vertical-align:middle;
+}
+.tag--urgent{ background:color-mix(in srgb, var(--danger) 16%, transparent); color:var(--danger); }
+.tag--info{ background:color-mix(in srgb, var(--teal) 18%, transparent); color:var(--teal); }
+.tag--ok{ background:color-mix(in srgb, var(--success) 16%, transparent); color:var(--success); }
+
+/* সতর্কতা বক্স */
+.alert{
+  border-radius:var(--radius-s);
+  padding:14px 16px;
+  font-size:.9rem;
+  margin-bottom:16px;
+  border:1px solid transparent;
+  display:flex; gap:10px; align-items:flex-start;
+}
+.alert svg{ width:19px; height:19px; flex:0 0 auto; margin-top:1px; }
+.alert--danger{ background:color-mix(in srgb, var(--danger) 12%, transparent); color:var(--danger); border-color:color-mix(in srgb, var(--danger) 30%, transparent); }
+.alert--success{ background:color-mix(in srgb, var(--success) 12%, transparent); color:var(--success); border-color:color-mix(in srgb, var(--success) 30%, transparent); }
+.alert--info{ background:color-mix(in srgb, var(--teal) 12%, transparent); color:var(--teal); border-color:color-mix(in srgb, var(--teal) 30%, transparent); }
+
+/* =========================================================
+   ক্যালকুলেটর — ইউজার কার্ড
+   ========================================================= */
+.summary-strip{
+  display:grid; grid-template-columns:repeat(2,1fr); gap:12px;
+  margin:18px 0 4px;
+}
+@media (min-width:640px){ .summary-strip{ grid-template-columns:repeat(4,1fr); } }
+.summary-strip__item{
+  background:var(--surface-alt);
+  border-radius:var(--radius-s);
+  padding:14px;
+  text-align:center;
+}
+.summary-strip__item strong{ display:block; font-size:1.15rem; color:var(--primary-dark); font-family:var(--font-display); }
+[data-theme="dark"] .summary-strip__item strong{ color:var(--primary-light); }
+.summary-strip__item span{ font-size:.74rem; color:var(--text-muted); }
+
+.user-card{
+  border:1px solid var(--border);
+  border-radius:var(--radius-s);
+  padding:16px;
+  margin-bottom:12px;
+  background:var(--surface);
+  position:relative;
+}
+.user-card__index{
+  position:absolute; top:-10px; right:14px;
+  background:var(--primary);
+  color:#fff;
+  font-size:.72rem; font-weight:700;
+  padding:3px 10px;
+  border-radius:20px;
+}
+.btn-row{ display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; }
+
+/* =========================================================
+   ফুটার
+   ========================================================= */
+.site-footer{
+  background:var(--primary-dark);
+  color:#E9E4D6;
+  padding:34px 0 20px;
+  margin-top:40px;
+}
+.site-footer a{ color:#E9E4D6; }
+.footer-grid{ display:grid; gap:22px; grid-template-columns:1fr; margin-bottom:18px; }
+@media (min-width:700px){ .footer-grid{ grid-template-columns:1.2fr 1fr 1fr; } }
+.footer-grid h4{ color:#F3EFE3; font-size:.95rem; margin-bottom:.6em; }
+.footer-grid p, .footer-grid a{ font-size:.85rem; color:#C9C2AD; display:block; margin-bottom:6px; }
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,.12);
+  padding-top:14px;
+  font-size:.76rem;
+  color:#9E9682;
+  text-align:center;
+}
+
+/* ইমার্জেন্সি স্ট্রিপ */
+.emergency-strip{
+  display:flex; align-items:center; gap:10px;
+  background:color-mix(in srgb, var(--danger) 12%, transparent);
+  color:var(--danger);
+  padding:10px 16px;
+  border-radius:var(--radius-s);
+  font-size:.85rem;
+  font-weight:600;
+  margin-bottom:20px;
+}
+.emergency-strip svg{ width:18px; height:18px; flex:0 0 auto; }
+
+/* গ্লাসমরফিজম প্যানেল (হালকা ব্যবহার) */
+.glass{
+  background:color-mix(in srgb, var(--surface) 70%, transparent);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:1px solid color-mix(in srgb, var(--border) 80%, transparent);
+}
+
+/* =========================================================
+   প্রিন্ট — শুধু ক্যালকুলেটরের ফলাফল প্রিন্ট হবে
+   ========================================================= */
+.print-only{ display:none; }
+.print-letterhead{
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  gap:2px;
+  margin-bottom:14px;
+  padding-bottom:12px;
+  border-bottom:2px solid #000;
+}
+.print-letterhead strong{ font-family:var(--font-display); font-size:1.3rem; }
+.print-letterhead span{ font-size:.8rem; }
+
+/* ইউটিলিটি */
+.center{ text-align:center; }
+.mt-0{ margin-top:0; }
+.stack-8>*+*{ margin-top:8px; }
+.hide-print{ }
+
+/* প্রিন্ট পেজ সাইজ — A4 */
+@page{
+  size: A4;
+  margin: 14mm 12mm;
+}
+
+@media print{
+  .site-header,.ticker,.side-menu,.menu-overlay,.site-footer,.hide-print{ display:none !important; }
+  .print-only{ display:block !important; }
+  .print-letterhead{ display:flex !important; }
+  body,html{ background:#fff; }
+  .app-shell{ max-width:100%; border:0; box-shadow:none; display:block; min-height:0; }
+  main{ min-height:0; }
+  .container{ padding:0; }
+  #resultsSection{
+    display:block !important;
+    border:0;
+    box-shadow:none;
+    padding:0;
+    color:#000;
+  }
+  #resultsSection thead th{ background:#eee !important; color:#000 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  #resultsSection tbody tr:nth-child(even){ background:#f5f5f5 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  #resultsSection tfoot td{ background:#eee !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .summary-strip__item{ background:#f5f5f5 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+
+  /* --- টেবিল যেন A4-এর ভেতরেই সম্পূর্ণ দেখা যায়, কাটা না পড়ে --- */
+  .table-wrap{
+    overflow:visible !important;
+    border:1px solid #000;
+    width:100%;
+  }
+  #resultsSection table{
+    width:100% !important;
+    min-width:0 !important;
+    table-layout:fixed;
+    font-size:.72rem;
+  }
+  #resultsSection thead th{
+    white-space:normal;
+    word-break:break-word;
+    padding:6px 5px;
+    border:1px solid #000;
+    font-size:.68rem;
+  }
+  #resultsSection tbody td, #resultsSection tfoot td{
+    padding:6px 5px;
+    border:1px solid #000;
+    word-break:break-word;
+  }
+  #resultsSection tr, #resultsSection td, #resultsSection th{
+    page-break-inside: avoid;
+  }
+}
